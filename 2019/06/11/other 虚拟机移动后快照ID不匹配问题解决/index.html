@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+
+    
+
+    
+
+    <title>虚拟机移动后快照ID不匹配问题解决 | DEMON</title>
+    <meta name="author" content="John Doe">
+    <meta name="version" content="1.0.0">
+    <meta name="keywords" content>
+    <meta name="description" content="原文：https://kb.vmware.com/articleview?docid=1007969&amp;amp;lang=zh_CN更正内容 ID 不匹配此时，问题点已确定，虚拟机文件已备份，必须应用更正措施。要更正内容 ID 不匹配，请执行以下操作：警告：CID 机制的存在是为了防止数据损坏。 根据父文件或文件受到的更改情况，客户机操作系统可能会在采取更正措施后无法成功引导。 备份恢复适用于此类情况。如果不能完全按照此处列出的步骤来操作，则这些步骤可能会给您的环境带来风险。 ...">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+
+    
+    
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <main class="app">
+        <header class="header clearfix">
+    <div id="nav" class="nav">
+    <div class="nav-mobile">
+        <button id="open-panel" class="open-panel nav-mobile-item"><i class="icon-documents"></i></button>
+        <h1 class="nav-mobile-title nav-mobile-item">DEMON</h1>
+        <button id="open-menus" class="open-panel nav-mobile-item"><i class="icon-library"></i></button>
+    </div>
+
+    <nav id="nav-inner" class="nav-inner">
+        
+            <a class="nav-item" href="/">
+                <span class="nav-text">首页</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/mysql">
+                <span class="nav-text">Mysql</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/oracle">
+                <span class="nav-text">Oracle</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/rabbitMQ">
+                <span class="nav-text">RabbitMQ</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/docker">
+                <span class="nav-text">Docker</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/other">
+                <span class="nav-text">其他</span>
+            </a>
+        
+    </nav>
+</div>
+
+    <aside id="aside" class="aside">
+    <div id="aside-mask" class="aside-mask"></div>
+    <div id="aside-inner" class="aside-inner">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"><i class="icon-search-stroke"></i></button><input type="hidden" name="sitesearch" value="https://dongjun612.github.io"></form>
+
+        
+        
+        
+        
+
+        
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#更正内容-ID-不匹配"><span class="toc-number">1.</span> <span class="toc-text">更正内容 ID 不匹配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#验证-CID-更正"><span class="toc-number">2.</span> <span class="toc-text">验证 CID 更正</span></a></li></ol>
+        
+    </div>
+</aside>
+
+</header>
+
+        <div id="content" class="content"><article class="article article-border" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
+            虚拟机移动后快照ID不匹配问题解决
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="https://dongjun612.github.io/2019/06/11/other 虚拟机移动后快照ID不匹配问题解决/index.html">
+    
+    <i class="icon-calendar"></i>
+    
+    <time datetime="2019-06-10T16:00:00.000Z" itemprop="datePublished">2019-06-11</time>
+</a>
+
+            
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <p>原文：<a href="https://kb.vmware.com/articleview?docid=1007969&amp;lang=zh_CN" target="_blank" rel="noopener">https://kb.vmware.com/articleview?docid=1007969&amp;lang=zh_CN</a></p>
+<a id="more"></a>
+<h3 id="更正内容-ID-不匹配"><a href="#更正内容-ID-不匹配" class="headerlink" title="更正内容 ID 不匹配"></a>更正内容 ID 不匹配</h3><p>此时，问题点已确定，虚拟机文件已备份，必须应用更正措施。</p>
+<p>要更正内容 ID 不匹配，请执行以下操作：</p>
+<p><strong>警告</strong>：</p>
+<ul>
+<li>CID 机制的存在是为了防止数据损坏。 根据父文件或文件受到的更改情况，客户机操作系统可能会在采取更正措施后无法成功引导。 备份恢复适用于此类情况。</li>
+<li>如果不能完全按照此处列出的步骤来操作，则这些步骤可能会给您的环境带来风险。 如果您不能轻松自如地执行这些步骤，请联系 VMware 技术支持并与他们一起解决此问题。</li>
+</ul>
+<ol>
+<li>确认磁盘互相引用：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">基础磁盘的描述符文件示例 **`examplevm.vmdk`：**`</span><br><span class="line"></span><br><span class="line"># Disk DescriptorFile</span><br><span class="line">version=1</span><br><span class="line">CID= **12a9ffab**</span><br><span class="line">parentCID=ffffffff</span><br><span class="line">createType=&quot;vmfs&quot;</span><br><span class="line"></span><br><span class="line"># Extent description</span><br><span class="line">RW 20971520 VMFS &quot; **examplevm-flat.vmdk**&quot;</span><br><span class="line"></span><br><span class="line"># The Disk Data Base</span><br><span class="line">#DDB</span><br><span class="line">ddb.toolsVersion = &quot;0&quot;</span><br><span class="line">ddb.adapterType = &quot;lsilogic&quot;</span><br><span class="line">ddb.geometry.sectors = &quot;63&quot;</span><br><span class="line">ddb.geometry.heads = &quot;255&quot;</span><br><span class="line">ddb.geometry.cylinders = &quot;1305&quot;</span><br><span class="line">ddb.uuid = &quot;60 00 C2 9f ae de ba e9-95 4e a7 a6 4e 95 c1 c1&quot;</span><br><span class="line">ddb.virtualHWVersion = &quot;4&quot;`</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">增量磁盘的描述符文件示例 **`examplevm-000001.vmdk`：**`</span><br><span class="line"></span><br><span class="line"># Disk DescriptorFile</span><br><span class="line">version=1</span><br><span class="line">CID= 69a1c662</span><br><span class="line">parentCID= **7b7644b2**</span><br><span class="line">createType=&quot;vmfsSparse&quot;</span><br><span class="line">parentFileNameHint= &quot; **examplevm.vmdk**&quot;`</span><br><span class="line"></span><br><span class="line">`# Extent description</span><br><span class="line">RW 20971520 VMFSSPARSE &quot;examplevm-000001-delta.vmdk&quot;`</span><br><span class="line"></span><br><span class="line">`# The Disk Data Base</span><br><span class="line">#DDB</span><br><span class="line">ddb.toolsVersion = &quot;7302&quot;`</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">子增量磁盘的描述符文件示例 **`examplevm-000002.vmdk`：**</span><br><span class="line"></span><br><span class="line">`# Disk DescriptorFile</span><br><span class="line">version=1</span><br><span class="line">CID=59fab513</span><br><span class="line">parentCID= 69a1c662</span><br><span class="line">createType=&quot;vmfsSparse&quot;</span><br><span class="line">parentFileNameHint= &quot; **examplevm-000001.vmdk**&quot;`</span><br><span class="line"></span><br><span class="line">`# Extent description</span><br><span class="line">RW 20971520 VMFSSPARSE &quot;examplevm-000002-delta.vmdk&quot;`</span><br><span class="line"></span><br><span class="line">`# The Disk Data Base</span><br><span class="line">#DDB</span><br><span class="line">ddb.toolsVersion = &quot;7302&quot;`</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>： 链接或链引用以蓝色突出显示。 此示例表明 <code>examplevm-000002.vmdk</code> 为 <code>examplevm-000001.vmdk</code>（即 <code>examplevm.vmdk</code> 的子项）的子项。 这三个磁盘文件构成了虚拟机和客户机操作系统角度的单个虚拟磁盘。</p>
+<p>2.在两个问题点中的任意一个使用文本编辑器更改不匹配。 有关详细信息，请参见 <a href="/kb/1017022?p"></a><a href="/kb/1017022?p">Editing configuration files in VMware ESXi and ESX (1017022)</a> 中的“首选编辑器”。 对于此示例，您可以更正 <code>examplevm.vmdk</code> 或 <code>examplevm-000001.vmdk</code> 磁盘文件。 在上述任意一种情况下，<code>parentCID</code> 和 <code>CID</code> 关系必须有效。</p>
+<p><strong>示例</strong>： <code>examplevm.vmdk</code> 的 CID 可以更改为 <code>7b7644b2</code>，以匹配 <code>examplevm-000001.vmdk</code> 的预期 <code>parentCID</code> 值。 此外，也可以将 <code>examplevm-000001.vmdk</code> 的 <code>parentCID</code> 值更改为 <code>12a9ffab</code>，以匹配 <code>examplevm.vmdk</code> 的基础磁盘描述符文件的 CID。 还可以考虑创建一个您自己的 CID 值。</p>
+<p><strong>注意</strong>： CID 由八 (8) 个十六进制小写数字 (<code>00000000</code>-<code>ffffffff</code>) 组成，且没有分隔符。</p>
+<h3 id="验证-CID-更正"><a href="#验证-CID-更正" class="headerlink" title="验证 CID 更正"></a>验证 CID 更正</h3><p>对虚拟机文件进行的更正通常不会立即在产品的其余部分中确认。 同样地，随后的打开电源尝试可能也不会成功。</p>
+<p>要验证 CID 更正，请执行以下操作：</p>
+<ol>
+<li>登录到 VMware vSphere Client 或 VMware Infrastructure Client。</li>
+<li>在“清单”中选择虚拟机，然后单击<strong>摘要</strong>选项卡。</li>
+<li>在<strong>资源</strong>下，右键单击包含虚拟机配置文件的数据存储，然后选择<strong>浏览</strong>。 随即会打开<strong>数据存储浏览器</strong>。</li>
+<li>找到虚拟机目录和文件。 现在可以将其最小化，因为在第 7 步中将使用到。</li>
+<li>右键单击虚拟机，然后选择<strong>从清单中移除</strong>。</li>
+<li>出现提示时，通过单击<strong>是</strong>确认您的选择。 虚拟机从左侧的清单中消失。</li>
+<li>从第 4 步还原<strong>数据存储浏览器</strong>，右键单击虚拟机的配置文件（例如 <code>examplevm.vmx</code>），然后选择<strong>添加到清单</strong>。</li>
+<li>按照屏幕上的提示将虚拟机放回清单中。</li>
+</ol>
+<ul>
+<li><strong>警告</strong>： 请勿打开虚拟机电源，除非您有其所有文件的有效副本或备份。 打开虚拟机电源后，进一步的不可逆更改会应用到磁盘结构。</li>
+</ul>
+<ol start="9">
+<li>准备就绪之后，打开虚拟机电源并确认客户机操作系统的状态。 可能会执行文件系统完整性检查，以查找和修复由初始 CID 不匹配造成的磁盘链更改而引起的任何复杂问题。</li>
+</ol>
+
+        
+    </section>
+</article>
+
+
+
+</div>
+        <footer class="footer">
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, Theme by <a href="https://github.com/sanonz/hexo-theme-concise" target="_blank">Concise</a>
+
+    
+</footer>
+
+    </main>
+
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        var nodes = {
+            nav: $('#nav'),
+            aside: $('#aside'),
+            asideInner: $('#aside-inner'),
+            navInner: $('#nav-inner')
+        };
+
+        var doing = false;
+        nodes.asideInner.on('webkitAnimationEnd mozAnimationEnd oAnimationEnd oanimationend animationend', function() {
+            if (nodes.aside.hasClass('mobile-open')) {
+                nodes.aside.removeClass('mobile-open');
+            } else {
+                nodes.aside.removeClass('mobile-close panel-show');
+            }
+            doing = false;
+        });
+        $('#open-panel, #aside-mask').on('click', function() {
+            if (doing) {
+                return;
+            }
+
+            if (nodes.aside.hasClass('panel-show')) {
+                nodes.aside.addClass('mobile-close');
+            } else {
+                nodes.aside.addClass('mobile-open panel-show');
+            }
+        });
+        $('#open-menus').on('click', function() {
+            nodes.navInner.slideToggle();
+        });
+
+        // demon modify by 2019-6-24 : 手机页面时候默认3秒隐藏菜单, 注销此功能
+        // if (window.innerWidth <= 960) {
+        //     setTimeout(function() {
+        //         nodes.navInner.slideUp();
+        //     }, 3000);
+        // }
+    });
+    </script>
+    
+        <script type="text/javascript" src="/js/scrollspy.min.js"></script>
+        <script type="text/javascript">
+        $(document.body).scrollspy({target: '#aside-inner'});
+        </script>
+    
+
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+
+    
+
+    
+
+    <title>oracle 导入不同用户不同表空间的表 | DEMON</title>
+    <meta name="author" content="John Doe">
+    <meta name="version" content="1.0.0">
+    <meta name="keywords" content>
+    <meta name="description" content="设置目录导入导出数据前需要设置文件存放目录：(oracle 安装机器上)1create or replace directory expdp_dir as &amp;apos;E:\DB&amp;apos;;为目录设施读写权限：1grant read,write on directory expdp_dir to public;查看目录设置：1select * from dba_directories;导出用户下的表注： 指定导出哪些表的时候, 导入时也需要指定导入哪些表1expdp ...">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+
+    
+    
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <main class="app">
+        <header class="header clearfix">
+    <div id="nav" class="nav">
+    <div class="nav-mobile">
+        <button id="open-panel" class="open-panel nav-mobile-item"><i class="icon-documents"></i></button>
+        <h1 class="nav-mobile-title nav-mobile-item">DEMON</h1>
+        <button id="open-menus" class="open-panel nav-mobile-item"><i class="icon-library"></i></button>
+    </div>
+
+    <nav id="nav-inner" class="nav-inner">
+        
+            <a class="nav-item" href="/">
+                <span class="nav-text">首页</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/mysql">
+                <span class="nav-text">Mysql</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/oracle">
+                <span class="nav-text">Oracle</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/rabbitMQ">
+                <span class="nav-text">RabbitMQ</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/docker">
+                <span class="nav-text">Docker</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/other">
+                <span class="nav-text">其他</span>
+            </a>
+        
+    </nav>
+</div>
+
+    <aside id="aside" class="aside">
+    <div id="aside-mask" class="aside-mask"></div>
+    <div id="aside-inner" class="aside-inner">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"><i class="icon-search-stroke"></i></button><input type="hidden" name="sitesearch" value="https://dongjun612.github.io"></form>
+
+        
+        
+        
+        
+
+        
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#设置目录"><span class="toc-number">1.</span> <span class="toc-text">设置目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#导出用户下的表"><span class="toc-number">2.</span> <span class="toc-text">导出用户下的表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#导入不同用户不同表空间的表"><span class="toc-number">3.</span> <span class="toc-text">导入不同用户不同表空间的表</span></a></li></ol>
+        
+    </div>
+</aside>
+
+</header>
+
+        <div id="content" class="content"><article class="article article-border" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
+            oracle 导入不同用户不同表空间的表
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="https://dongjun612.github.io/2019/06/07/oracle 导入不同用户不同表空间的表/index.html">
+    
+    <i class="icon-calendar"></i>
+    
+    <time datetime="2019-06-06T16:00:00.000Z" itemprop="datePublished">2019-06-07</time>
+</a>
+
+            
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <h3 id="设置目录"><a href="#设置目录" class="headerlink" title="设置目录"></a>设置目录</h3><p>导入导出数据前需要设置文件存放目录：(oracle 安装机器上)</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create or replace directory expdp_dir as &apos;E:\DB&apos;;</span><br></pre></td></tr></table></figure>
+<p>为目录设施读写权限：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant read,write on directory expdp_dir to public;</span><br></pre></td></tr></table></figure>
+<p>查看目录设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from dba_directories;</span><br></pre></td></tr></table></figure>
+<h3 id="导出用户下的表"><a href="#导出用户下的表" class="headerlink" title="导出用户下的表"></a>导出用户下的表</h3><ul>
+<li><strong><font color="red">注：</font></strong> 指定导出哪些表的时候, 导入时也需要指定导入哪些表</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">expdp cpmp/cpmp@orcl dumpfile=053101.dmp logfile=053101.log tables=PGMP_DTH_LAYER,PGMP_DTH_LAYER_FIELD,PGMP_DTH_DATATABLE  directory=EXPDP_DIR</span><br></pre></td></tr></table></figure>
+<p>参数说明:</p>
+<ul>
+<li>cpmp/cpmp@orcl：导出这个用户的数据</li>
+<li>dumpfile：导出文件名称</li>
+<li>logfile：导出时的日志</li>
+<li>tables：需要导出的表名，多个表用逗号分隔</li>
+<li>directory：导出文件存放的路径，在oracle安装所在的机器上。</li>
+</ul>
+<h3 id="导入不同用户不同表空间的表"><a href="#导入不同用户不同表空间的表" class="headerlink" title="导入不同用户不同表空间的表"></a>导入不同用户不同表空间的表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">impdp ltyrh/ltyrh@orcl directory=expdp_dir  remap_schema=cpmp:ltyrh REMAP_TABLESPACE=CPMP:USERS transform=OID:N dumpfile=053101.DMP logfile=053101.log tables=cpmp.PGMP_DTH_LAYER,cpmp.PGMP_DTH_LAYER_FIELD,cpmp.PGMP_DTH_DATATABLE</span><br></pre></td></tr></table></figure>
+<p>参数说明:</p>
+<ul>
+<li>ltyrh/ltyrh@orcl：将数据或表导入到该用户下</li>
+<li>directory： 导入文件所在路径，在oracle安装所在的机器上。</li>
+<li>remap_schema：重置用户，格式“导出使用的用户名：导入使用的用户名”。</li>
+<li>REMAP_TABLESPACE：重置表空间，格式“导出的表空间：导入的表空间”。</li>
+<li>dumpfile：导入文件名称。</li>
+<li>logfile：日志文件。</li>
+<li>tables：指定导入表的名称，需和导出表名称一致，多个表名用逗号分隔。</li>
+<li><strong><font color="red">注：</font></strong> 表名前面有导出用户前缀时候，不需要remap_schema参数，否则会报错。</li>
+</ul>
+
+        
+    </section>
+</article>
+
+
+
+</div>
+        <footer class="footer">
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, Theme by <a href="https://github.com/sanonz/hexo-theme-concise" target="_blank">Concise</a>
+
+    
+</footer>
+
+    </main>
+
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        var nodes = {
+            nav: $('#nav'),
+            aside: $('#aside'),
+            asideInner: $('#aside-inner'),
+            navInner: $('#nav-inner')
+        };
+
+        var doing = false;
+        nodes.asideInner.on('webkitAnimationEnd mozAnimationEnd oAnimationEnd oanimationend animationend', function() {
+            if (nodes.aside.hasClass('mobile-open')) {
+                nodes.aside.removeClass('mobile-open');
+            } else {
+                nodes.aside.removeClass('mobile-close panel-show');
+            }
+            doing = false;
+        });
+        $('#open-panel, #aside-mask').on('click', function() {
+            if (doing) {
+                return;
+            }
+
+            if (nodes.aside.hasClass('panel-show')) {
+                nodes.aside.addClass('mobile-close');
+            } else {
+                nodes.aside.addClass('mobile-open panel-show');
+            }
+        });
+        $('#open-menus').on('click', function() {
+            nodes.navInner.slideToggle();
+        });
+
+        // demon modify by 2019-6-24 : 手机页面时候默认3秒隐藏菜单, 注销此功能
+        // if (window.innerWidth <= 960) {
+        //     setTimeout(function() {
+        //         nodes.navInner.slideUp();
+        //     }, 3000);
+        // }
+    });
+    </script>
+    
+        <script type="text/javascript" src="/js/scrollspy.min.js"></script>
+        <script type="text/javascript">
+        $(document.body).scrollspy({target: '#aside-inner'});
+        </script>
+    
+
+</body>
+</html>

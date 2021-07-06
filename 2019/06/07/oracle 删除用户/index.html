@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+
+    
+
+    
+
+    <title>oracle 删除用户 | DEMON</title>
+    <meta name="author" content="John Doe">
+    <meta name="version" content="1.0.0">
+    <meta name="keywords" content>
+    <meta name="description" content="原文：http://down.admin5.com/info/2015/0327/119439.html具体查询进程号，最后删除对应的进程步骤如下查看用户的连接状况1select username,sid,serial# from v$session如下结果：1234567891011username        sid         serial#NETBNEW         513         22974NETBNEW         514         18...">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+
+    
+    
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <main class="app">
+        <header class="header clearfix">
+    <div id="nav" class="nav">
+    <div class="nav-mobile">
+        <button id="open-panel" class="open-panel nav-mobile-item"><i class="icon-documents"></i></button>
+        <h1 class="nav-mobile-title nav-mobile-item">DEMON</h1>
+        <button id="open-menus" class="open-panel nav-mobile-item"><i class="icon-library"></i></button>
+    </div>
+
+    <nav id="nav-inner" class="nav-inner">
+        
+            <a class="nav-item" href="/">
+                <span class="nav-text">首页</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/mysql">
+                <span class="nav-text">Mysql</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/oracle">
+                <span class="nav-text">Oracle</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/rabbitMQ">
+                <span class="nav-text">RabbitMQ</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/docker">
+                <span class="nav-text">Docker</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/other">
+                <span class="nav-text">其他</span>
+            </a>
+        
+    </nav>
+</div>
+
+    <aside id="aside" class="aside">
+    <div id="aside-mask" class="aside-mask"></div>
+    <div id="aside-inner" class="aside-inner">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"><i class="icon-search-stroke"></i></button><input type="hidden" name="sitesearch" value="https://dongjun612.github.io"></form>
+
+        
+        
+        
+        
+
+        
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看用户的连接状况"><span class="toc-number">1.</span> <span class="toc-text">查看用户的连接状况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#找到要删除用户的sid-和serial，并删除"><span class="toc-number">2.</span> <span class="toc-text">找到要删除用户的sid,和serial，并删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除用户"><span class="toc-number">3.</span> <span class="toc-text">删除用户</span></a></li></ol>
+        
+    </div>
+</aside>
+
+</header>
+
+        <div id="content" class="content"><article class="article article-border" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
+            oracle 删除用户
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="https://dongjun612.github.io/2019/06/07/oracle 删除用户/index.html">
+    
+    <i class="icon-calendar"></i>
+    
+    <time datetime="2019-06-06T16:00:00.000Z" itemprop="datePublished">2019-06-07</time>
+</a>
+
+            
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <p>原文：<a href="http://down.admin5.com/info/2015/0327/119439.html" target="_blank" rel="noopener">http://down.admin5.com/info/2015/0327/119439.html</a><br><a id="more"></a></p>
+<blockquote>
+<p>具体查询进程号，最后删除对应的进程步骤如下</p>
+</blockquote>
+<h3 id="查看用户的连接状况"><a href="#查看用户的连接状况" class="headerlink" title="查看用户的连接状况"></a>查看用户的连接状况</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select username,sid,serial# from v$session</span><br></pre></td></tr></table></figure>
+<p>如下结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">username        sid         serial#</span><br><span class="line"></span><br><span class="line">NETBNEW         513         22974</span><br><span class="line"></span><br><span class="line">NETBNEW         514         18183</span><br><span class="line"></span><br><span class="line">NETBNEW         516         21573</span><br><span class="line"></span><br><span class="line">NETBNEW         531         9</span><br><span class="line"></span><br><span class="line">ts              532         4562</span><br></pre></td></tr></table></figure>
+<h3 id="找到要删除用户的sid-和serial，并删除"><a href="#找到要删除用户的sid-和serial，并删除" class="headerlink" title="找到要删除用户的sid,和serial，并删除"></a>找到要删除用户的sid,和serial，并删除</h3><p>如：要删除用户’ts’,可以这样做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter system kill session&apos;532,4562&apos;</span><br></pre></td></tr></table></figure>
+<h3 id="删除用户"><a href="#删除用户" class="headerlink" title="删除用户"></a>删除用户</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop user ts cascade</span><br></pre></td></tr></table></figure>
+
+        
+    </section>
+</article>
+
+
+
+</div>
+        <footer class="footer">
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, Theme by <a href="https://github.com/sanonz/hexo-theme-concise" target="_blank">Concise</a>
+
+    
+</footer>
+
+    </main>
+
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        var nodes = {
+            nav: $('#nav'),
+            aside: $('#aside'),
+            asideInner: $('#aside-inner'),
+            navInner: $('#nav-inner')
+        };
+
+        var doing = false;
+        nodes.asideInner.on('webkitAnimationEnd mozAnimationEnd oAnimationEnd oanimationend animationend', function() {
+            if (nodes.aside.hasClass('mobile-open')) {
+                nodes.aside.removeClass('mobile-open');
+            } else {
+                nodes.aside.removeClass('mobile-close panel-show');
+            }
+            doing = false;
+        });
+        $('#open-panel, #aside-mask').on('click', function() {
+            if (doing) {
+                return;
+            }
+
+            if (nodes.aside.hasClass('panel-show')) {
+                nodes.aside.addClass('mobile-close');
+            } else {
+                nodes.aside.addClass('mobile-open panel-show');
+            }
+        });
+        $('#open-menus').on('click', function() {
+            nodes.navInner.slideToggle();
+        });
+
+        // demon modify by 2019-6-24 : 手机页面时候默认3秒隐藏菜单, 注销此功能
+        // if (window.innerWidth <= 960) {
+        //     setTimeout(function() {
+        //         nodes.navInner.slideUp();
+        //     }, 3000);
+        // }
+    });
+    </script>
+    
+        <script type="text/javascript" src="/js/scrollspy.min.js"></script>
+        <script type="text/javascript">
+        $(document.body).scrollspy({target: '#aside-inner'});
+        </script>
+    
+
+</body>
+</html>

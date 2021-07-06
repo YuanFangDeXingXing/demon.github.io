@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+
+    
+
+    
+
+    <title>Docker Windows 不能访问ip | DEMON</title>
+    <meta name="author" content="John Doe">
+    <meta name="version" content="1.0.0">
+    <meta name="keywords" content>
+    <meta name="description" content="原文：https://www.cnblogs.com/chenshuquan/p/10557505.html问题详情在Windows10系统服务器中安装了docker和docker-compose并尝试在其中运行Nginx服务，映射也做好问题：在主机的浏览器中，打开localhost:port无法访问对应的Web服务。问题解析原因：docker是运行在Linux上的，在Windows中运行docker，实际上还是在Windows下先安装了一个Linux环境，然后在这个系统中运...">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+
+    
+    
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <main class="app">
+        <header class="header clearfix">
+    <div id="nav" class="nav">
+    <div class="nav-mobile">
+        <button id="open-panel" class="open-panel nav-mobile-item"><i class="icon-documents"></i></button>
+        <h1 class="nav-mobile-title nav-mobile-item">DEMON</h1>
+        <button id="open-menus" class="open-panel nav-mobile-item"><i class="icon-library"></i></button>
+    </div>
+
+    <nav id="nav-inner" class="nav-inner">
+        
+            <a class="nav-item" href="/">
+                <span class="nav-text">首页</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/mysql">
+                <span class="nav-text">Mysql</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/oracle">
+                <span class="nav-text">Oracle</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/rabbitMQ">
+                <span class="nav-text">RabbitMQ</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/docker">
+                <span class="nav-text">Docker</span>
+            </a>
+        
+            <a class="nav-item" href="/categories/other">
+                <span class="nav-text">其他</span>
+            </a>
+        
+    </nav>
+</div>
+
+    <aside id="aside" class="aside">
+    <div id="aside-mask" class="aside-mask"></div>
+    <div id="aside-inner" class="aside-inner">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"><i class="icon-search-stroke"></i></button><input type="hidden" name="sitesearch" value="https://dongjun612.github.io"></form>
+
+        
+        
+        
+        
+
+        
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题详情"><span class="toc-number">1.</span> <span class="toc-text">问题详情</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题解析"><span class="toc-number">2.</span> <span class="toc-text">问题解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决办法1-治标不治本"><span class="toc-number">3.</span> <span class="toc-text">解决办法1(治标不治本)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决办法2-终于治本了"><span class="toc-number">4.</span> <span class="toc-text">解决办法2(终于治本了)</span></a></li></ol>
+        
+    </div>
+</aside>
+
+</header>
+
+        <div id="content" class="content"><article class="article article-border" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
+            Docker Windows 不能访问ip
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="https://dongjun612.github.io/2019/06/20/docker Windows 不能访问ip/index.html">
+    
+    <i class="icon-calendar"></i>
+    
+    <time datetime="2019-06-19T16:00:00.000Z" itemprop="datePublished">2019-06-20</time>
+</a>
+
+            
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <p>原文：<a href="https://www.cnblogs.com/chenshuquan/p/10557505.html" target="_blank" rel="noopener">https://www.cnblogs.com/chenshuquan/p/10557505.html</a><br><a id="more"></a></p>
+<h3 id="问题详情"><a href="#问题详情" class="headerlink" title="问题详情"></a>问题详情</h3><ul>
+<li>在Windows10系统服务器中安装了docker和docker-compose</li>
+<li>并尝试在其中运行Nginx服务，映射也做好</li>
+<li>问题：在主机的浏览器中，打开localhost:port无法访问对应的Web服务。</li>
+</ul>
+<h3 id="问题解析"><a href="#问题解析" class="headerlink" title="问题解析"></a>问题解析</h3><ul>
+<li>原因：docker是运行在Linux上的，在Windows中运行docker，实际上还是在Windows下先安装了一个Linux环境，然后在这个系统中运行的docker。</li>
+<li>也就是说，服务中使用的localhost指的是这个Linux环境的地址，而不是我们的宿主环境Windows10。</li>
+</ul>
+<h3 id="解决办法1-治标不治本"><a href="#解决办法1-治标不治本" class="headerlink" title="解决办法1(治标不治本)"></a>解决办法1(治标不治本)</h3><ul>
+<li>启动docker命令行窗口</li>
+<li>输入命令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine ip default</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Linux的ip地址，一般情况下这个地址是192.168.99.100</li>
+<li>然后在Windows的浏览器中，输入 <code>http://IP:port</code> 即可启用（<code>http://192.168.99.100:8069</code>）</li>
+</ul>
+<h3 id="解决办法2-终于治本了"><a href="#解决办法2-终于治本了" class="headerlink" title="解决办法2(终于治本了)"></a>解决办法2(终于治本了)</h3><blockquote>
+<p>使用Linux的ip能访问了，但是别的机器还是不能访问宿主机(windows)，这是为什么呢？<br>还有一个映射需要我们配置(映射真多啊)，这个映射就是linux虚拟机和windows宿主机直接的映射。</p>
+</blockquote>
+<ul>
+<li>打开Oracle VM VirtualBox虚拟机(安装docker后的3大件之一).</li>
+<li><p>选择当前正在运行的虚拟机，然后点<code>设置</code> -&gt; <code>网络</code> -&gt; <code>网卡1</code>选项卡 -&gt; <code>高级</code>下拉箭头 -&gt; <code>端口转发</code>按钮。如下图：</p>
+</li>
+<li><p><img src="/img/0006.png"></p>
+</li>
+<li><p>然后就愉快的映射吧</p>
+</li>
+<li><p><img src="/img/0007.png"></p>
+</li>
+<li><p>注：想在局域网内被访问，主机ip应设置为局域网ip</p>
+</li>
+<li>注：子系统端口为linux虚拟机的端口，不是容器的端口，如：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">linux端口8888，tomcat容器端口8080</span><br><span class="line">docker run -it --rm --name tomcat -p 8888:8080 tomcat</span><br></pre></td></tr></table></figure>
+<ul>
+<li>然后把linux端口8888映射在宿主机(windows)上就能访问了。</li>
+</ul>
+
+        
+    </section>
+</article>
+
+
+
+</div>
+        <footer class="footer">
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, Theme by <a href="https://github.com/sanonz/hexo-theme-concise" target="_blank">Concise</a>
+
+    
+</footer>
+
+    </main>
+
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        var nodes = {
+            nav: $('#nav'),
+            aside: $('#aside'),
+            asideInner: $('#aside-inner'),
+            navInner: $('#nav-inner')
+        };
+
+        var doing = false;
+        nodes.asideInner.on('webkitAnimationEnd mozAnimationEnd oAnimationEnd oanimationend animationend', function() {
+            if (nodes.aside.hasClass('mobile-open')) {
+                nodes.aside.removeClass('mobile-open');
+            } else {
+                nodes.aside.removeClass('mobile-close panel-show');
+            }
+            doing = false;
+        });
+        $('#open-panel, #aside-mask').on('click', function() {
+            if (doing) {
+                return;
+            }
+
+            if (nodes.aside.hasClass('panel-show')) {
+                nodes.aside.addClass('mobile-close');
+            } else {
+                nodes.aside.addClass('mobile-open panel-show');
+            }
+        });
+        $('#open-menus').on('click', function() {
+            nodes.navInner.slideToggle();
+        });
+
+        // demon modify by 2019-6-24 : 手机页面时候默认3秒隐藏菜单, 注销此功能
+        // if (window.innerWidth <= 960) {
+        //     setTimeout(function() {
+        //         nodes.navInner.slideUp();
+        //     }, 3000);
+        // }
+    });
+    </script>
+    
+        <script type="text/javascript" src="/js/scrollspy.min.js"></script>
+        <script type="text/javascript">
+        $(document.body).scrollspy({target: '#aside-inner'});
+        </script>
+    
+
+</body>
+</html>
